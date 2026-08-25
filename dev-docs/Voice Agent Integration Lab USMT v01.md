@@ -180,10 +180,6 @@ Podemos depois especializar eventos por tool:
 - CustomerLookupRequested
 - SupportTicketRequested
 
-mas não na v0.1.
-
-Primeiro preservamos eventos de protocolo genéricos.
-
 ## 5. 🟢 Allowed transitions
 
 ```text
@@ -346,8 +342,6 @@ Toda execução deve produzir um terminal record.
 
 ## 9. 💎 Invariants
 
-Aqui está o coração da USMT.
-
 ### I1 — Every operation has identity
 
 Antes de qualquer external call:
@@ -487,15 +481,11 @@ traduz para o sistema externo.
 
 observa; não decide domínio.
 
-Essa última separação é importantíssima:
-
 `trace ≠ authority`
 
 ## 11. 📊 Verifiable metrics
 
-Para o MVP, eu definiria métricas extremamente verificáveis.
-
-### Protocol correctness
+### MVP Protocol correctness
 
 **Target:**
 
@@ -523,8 +513,6 @@ Casos onde external system falha mas operação aparece como sucesso:
 
 ### Test coverage by behavior
 
-No mínimo:
-
 - happy path
 - invalid payload
 - unknown tool
@@ -549,26 +537,19 @@ User asks for order
 
 3/3 consecutive executions
 
-antes de declararmos MVP demonstrável.
+antes de declarar MVP demonstrável.
 
 ### Latency
 
-Mediremos:
 
 - tool_received_at
 - external_request_at
 - external_result_at
 - tool_returned_at
 
-Sem definir ainda um SLA arbitrário.
-
-Primeiro:
-
-measure.
-
-Depois:
-
-establish target.
+Primeiro: measure.
+ 
+Depois: establish target.
 
 ## 12. 📜 Spec — Voice Agent Integration Lab v0.1
 
@@ -624,7 +605,6 @@ Agent orchestration, integration logic, enterprise adapters, persistence, and ob
 
 ## USMT v0.1 — State Machine
 
-Nosso primeiro objeto inteiro cabe aqui:
 
 ```text
                          ┌────────────┐
@@ -664,29 +644,3 @@ Nosso primeiro objeto inteiro cabe aqui:
                                          └───────────┘
 ```
 
-## Sprint 0 status
-
-Eu diria que já temos uma USMT v0.1 candidata, mas antes de congelá-la quero que nós validemos quatro decisões, porque elas alteram o sistema de verdade:
-
-### Completed exige observar a resposta final do agente?
-
-Minha recomendação: sim. Caso contrário estamos verificando somente integração backend, não a experiência end-to-end.
-
-### Queremos três estados terminais (Completed / Rejected / Failed)?
-
-Minha recomendação: sim. Essa separação ficou muito limpa.
-
-### O objeto central chama-se Operation, Run ou Interaction?
-
-Minha recomendação: Operation. Conversation é mais amplo; Run eu preservaria para protocolos/investigações.
-
-### Primeiro business case = order lookup + support ticket?
-
-Minha recomendação:
-
-- primeira operação: get_order;
-- segunda operação: create_support_ticket.
-
-Se você me disser “aprovo os quatro”, eu considero:
-
-> Sprint 0 / USMT v0.1 → FROZEN
