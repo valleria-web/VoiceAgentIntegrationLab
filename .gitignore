@@ -40,6 +40,9 @@ htmlcov/
 logs/
 *.pid
 
+# Generated audio evidence
+output/*.mp3
+
 # Local databases
 *.db
 *.sqlite
