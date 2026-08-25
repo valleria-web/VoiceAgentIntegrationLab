@@ -1,0 +1,28 @@
+Voice Agent Integration Lab/
+|
+|-- .git/                              Metadados do repositório Git
+|
+|-- .env                               Variáveis de ambiente locais (sensível)
+|-- .gitignore                         Regras de arquivos ignorados pelo Git
+|
+|-- dev-docs/                          Documentação de desenvolvimento
+|   `-- Voice Agent Integration Lab USMT v01.md
+|
+|-- venv/                              Ambiente virtual Python 3.13
+|   |-- Include/
+|   |-- Lib/                           Bibliotecas e dependências instaladas
+|   |-- Scripts/
+|   |   |-- activate
+|   |   |-- activate.bat
+|   |   |-- activate.fish
+|   |   |-- Activate.ps1
+|   |   |-- deactivate.bat
+|   |   |-- pip.exe
+|   |   |-- pip3.exe
+|   |   |-- pip3.13.exe
+|   |   |-- python.exe
+|   |   `-- pythonw.exe
+|   |-- .gitignore
+|   `-- pyvenv.cfg
+|
+`-- diagram.txt                         Este diagrama

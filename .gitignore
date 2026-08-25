@@ -1,0 +1,52 @@
+# Environment variables and local secrets
+.env
+.env.*
+*.env
+!.env.example
+!.env.sample
+!*.env.example
+!*.env.sample
+
+# Credentials and private keys
+credentials*.json
+service-account*.json
+secrets*.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# Python virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Python caches and tooling
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Logs and runtime files
+*.log
+logs/
+*.pid
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE and operating-system metadata
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
