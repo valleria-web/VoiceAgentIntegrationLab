@@ -9,8 +9,23 @@ _ORDERS: dict[str, dict[str, str]] = {
     }
 }
 
+_CUSTOMERS: dict[str, dict[str, str]] = {
+    "2001": {
+        "customer_id": "2001",
+        "name": "Ana Costa",
+        "email": "ana.costa@example.com",
+        "status": "active",
+    }
+}
+
 
 def get_order(order_id: str) -> dict[str, str] | None:
     """Return a copy of an enterprise order when it exists."""
     order = _ORDERS.get(order_id)
     return dict(order) if order is not None else None
+
+
+def get_customer(customer_id: str) -> dict[str, str] | None:
+    """Return a copy of an enterprise customer when it exists."""
+    customer = _CUSTOMERS.get(customer_id)
+    return dict(customer) if customer is not None else None
