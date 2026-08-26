@@ -64,7 +64,14 @@ class CallbackRequest(BaseModel):
 @app.get("/orders/{order_id}")
 def read_order(order_id: str) -> dict[str, str]:
     """Expose order lookup through HTTP."""
-    order = order_service.get_order(order_id)
+    try:
+        order = order_service.get_order(order_id)
+    except order_service.EnterpriseTimeoutError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_504_GATEWAY_TIMEOUT,
+            detail="Enterprise API timeout",
+        ) from exc
+
     if order is None:
         raise HTTPException(status_code=404, detail="Order not found")
 
@@ -84,11 +91,19 @@ def read_customer(customer_id: str) -> dict[str, str]:
 @app.post("/support-tickets", status_code=status.HTTP_201_CREATED)
 def create_support_ticket(request: SupportTicketRequest) -> dict[str, str]:
     """Create a support ticket through the application service."""
-    return support_ticket_service.create_support_ticket(
-        customer_id=request.customer_id,
-        order_id=request.order_id,
-        issue=request.issue,
-    )
+    try:
+        return support_ticket_service.create_support_ticket(
+            customer_id=request.customer_id,
+            order_id=request.order_id,
+            issue=request.issue,
+        )
+    except support_ticket_service.OrderNotFoundError as exc:
+        raise HTTPException(status_code=404, detail="Order not found") from exc
+    except support_ticket_service.CustomerOrderMismatchError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Customer does not match order",
+        ) from exc
 
 
 @app.get("/support-tickets/{ticket_id}")

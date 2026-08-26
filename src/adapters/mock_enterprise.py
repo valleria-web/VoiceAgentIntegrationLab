@@ -1,4 +1,8 @@
-"""Deterministic in-memory mock of the enterprise order system."""
+"""Deterministic in-memory mock of the enterprise system."""
+
+
+class EnterpriseTimeoutError(RuntimeError):
+    """Signal a deterministic timeout at the enterprise boundary."""
 
 
 _ORDERS: dict[str, dict[str, str]] = {
@@ -9,11 +13,21 @@ _ORDERS: dict[str, dict[str, str]] = {
     }
 }
 
+_ORDER_CUSTOMERS: dict[str, str] = {
+    "1111": "2001",
+}
+
 _CUSTOMERS: dict[str, dict[str, str]] = {
     "2001": {
         "customer_id": "2001",
         "name": "Ana Costa",
         "email": "ana.costa@example.com",
+        "status": "active",
+    },
+    "2002": {
+        "customer_id": "2002",
+        "name": "Bruno Lima",
+        "email": "bruno.lima@example.com",
         "status": "active",
     }
 }
@@ -27,8 +41,16 @@ _NEXT_CALLBACK_NUMBER = 4001
 
 def get_order(order_id: str) -> dict[str, str] | None:
     """Return a copy of an enterprise order when it exists."""
+    if order_id == "TIMEOUT":
+        raise EnterpriseTimeoutError("Enterprise API timeout")
+
     order = _ORDERS.get(order_id)
     return dict(order) if order is not None else None
+
+
+def get_order_customer_id(order_id: str) -> str | None:
+    """Return the customer that owns an order when the relation exists."""
+    return _ORDER_CUSTOMERS.get(order_id)
 
 
 def get_customer(customer_id: str) -> dict[str, str] | None:
@@ -91,3 +113,13 @@ def get_callback(callback_id: str) -> dict[str, str] | None:
     """Return a copy of a scheduled callback when it exists."""
     callback = _CALLBACKS.get(callback_id)
     return dict(callback) if callback is not None else None
+
+
+def reset_runtime_state() -> None:
+    """Reset mutable mock state and deterministic counters for test isolation."""
+    global _NEXT_CALLBACK_NUMBER, _NEXT_SUPPORT_TICKET_NUMBER
+
+    _SUPPORT_TICKETS.clear()
+    _CALLBACKS.clear()
+    _NEXT_SUPPORT_TICKET_NUMBER = 3001
+    _NEXT_CALLBACK_NUMBER = 4001

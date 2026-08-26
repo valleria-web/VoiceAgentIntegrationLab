@@ -35,7 +35,7 @@ def test_scheduled_callback_is_observable() -> None:
     )
 
     assert creation_response.status_code == 201
-    assert created_callback["callback_id"] == "CBK-4002"
+    assert created_callback["callback_id"] == "CBK-4001"
     assert retrieval_response.status_code == 200
     assert retrieval_response.json() == created_callback
 
@@ -55,7 +55,7 @@ def test_invalid_phone_is_rejected_without_mutation() -> None:
 
     assert response.status_code == 422
     assert response.status_code != 201
-    assert client.get("/callbacks/CBK-4003").status_code == 404
+    assert client.get("/callbacks/CBK-4001").status_code == 404
 
 
 def test_timezone_less_datetime_is_rejected_without_mutation() -> None:
@@ -69,7 +69,7 @@ def test_timezone_less_datetime_is_rejected_without_mutation() -> None:
 
     assert response.status_code == 422
     assert response.status_code != 201
-    assert client.get("/callbacks/CBK-4003").status_code == 404
+    assert client.get("/callbacks/CBK-4001").status_code == 404
 
 
 def test_missing_required_field_is_rejected_without_mutation() -> None:
@@ -81,4 +81,4 @@ def test_missing_required_field_is_rejected_without_mutation() -> None:
 
     assert response.status_code == 422
     assert response.status_code != 201
-    assert client.get("/callbacks/CBK-4003").status_code == 404
+    assert client.get("/callbacks/CBK-4001").status_code == 404
